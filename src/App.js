@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { List } from './List';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import { MyRouter } from './router/MyRouter';
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
       <Container className="App">
-        <List></List>
+        <Router>
+          <MyRouter></MyRouter>
+        </Router>
       </Container>
     );
   }
