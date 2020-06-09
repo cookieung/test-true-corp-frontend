@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Table, Button, Row, Col, Form } from 'react-bootstrap';
+import axios from "axios";
 
 const contentLayout = {
     width : "100%",
@@ -10,26 +11,38 @@ const buttonLayout = {
     padding : "15px"
 }
 
-export const List = (props) => {
+export const List = () => {
 
 
     const [data,setData] = useState([]);
 
-    function getFormat(data) {
+    useEffect(async() => {
+        const response = await axios('http://localhost:5000/users');
+        setData(response.data)
+    },[])
+
+    function dateFormat(date_string) {
+        let date = new Date(date_string);
+        return date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+    }
+
+    function getFormat(a_data) {
         let res = [];
 
-        for (const key in data) {
+        for (const key in a_data) {
+            const index = parseInt(key);
+            const data = a_data[index];
             res.push(
-                <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
+                <tr key={key}>
+                <td>{index+1}</td>
+                <td>{data.user_id}</td>
+                <td>{data.username}</td>
+                <td>{data.first_name}</td>
+                <td>{data.last_name}</td>
+                <td>{data.create_by}</td>
+                <td>{dateFormat(data.create_at)}</td>
+                <td>{data.update_by}</td>
+                <td>{dateFormat(data.update_at)}</td>
                 <td><Button variant="primary">แก้ไข</Button></td>
                 <td><Button variant="primary">ลบ</Button></td>
                 </tr>
@@ -71,7 +84,7 @@ export const List = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {getFormat(props.data)}
+                {getFormat(data)}
             </tbody>
         </Table>
     </div>

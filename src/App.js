@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <Container className="App">
-        <List data={[1,2,3,4]}></List>
+        <List></List>
       </Container>
     );
   }
